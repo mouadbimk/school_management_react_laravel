@@ -1,7 +1,7 @@
 import {createContext, useContext, useState} from "react";
 import StudentApi from "../services/Api/Student/studentApi";
-export const UserStateContext = createContext({
-    user: {},
+export const StudentStateContext = createContext({
+    user: null,
     setUser: () => {},
     logout: () => {},
     login:(email,password)=>{},
@@ -10,23 +10,23 @@ export const UserStateContext = createContext({
 
     }
 });
-export default function UserContext({children}){
-    const [user,setUser] = useState();
-    const [authenticated,_setAuthenticated] = useState(window.localStorage.getItem('AUTHENTICATED'));
+export default function StudentContext({children}){
+    const [user,setUser] = useState(null);
+    const [authenticated,_setAuthenticated] = useState('trsue' === window.localStorage.getItem('AUTHENTICATED'));
     const login = async (email,password) => {
         await StudentApi.getCsrfToken()
         return StudentApi.login(email,password);
     }
     const logout = () => {
-        setUser({})
-        _setAuthenticated(false)
+        setUser(null)
+        setAuthenticated(false)
     };
     const setAuthenticated = (isAuthenticated) =>{
         _setAuthenticated(isAuthenticated)
         window.localStorage.setItem('AUTHENTICATED', isAuthenticated);
     }
     return <>
-            <UserStateContext.Provider value={{
+            <StudentStateContext.Provider value={{
                 user,
                 login,
                 setUser,
@@ -35,7 +35,7 @@ export default function UserContext({children}){
                 logout,
             }}>
                 {children}
-            </UserStateContext.Provider>
+            </StudentStateContext.Provider>
           </>
 }
-export const useUserContext = () =>  useContext(UserStateContext);
+export const useStudentContext = () =>  useContext(StudentStateContext);

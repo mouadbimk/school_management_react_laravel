@@ -2,16 +2,19 @@
 import { RouterProvider } from 'react-router-dom'
 import './App.css'
 import { router } from './router/index';
-import UserContext from './context/UserContext';
+import StudentContext from './context/StudentContext';
+import { ThemeProvider } from './components/theme-provider';
 
 function App() {
  
 
   return (
     <>
-      <UserContext>
-      <RouterProvider router={router} />
-      </UserContext>
+      <StudentContext>
+        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+          <RouterProvider router={router} />
+        </ThemeProvider>
+      </StudentContext>
     </>
   )
 }

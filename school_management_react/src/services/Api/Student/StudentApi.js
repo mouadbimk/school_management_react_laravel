@@ -10,6 +10,9 @@ const StudentApi = {
     },
     getUser: async ()=>{
         return await  axiosClient.get('/api/user');
+    },
+    logout: async ()=>{
+        return await axiosClient.post('/logout');
     }
 }
 export default StudentApi;

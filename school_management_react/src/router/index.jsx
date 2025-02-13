@@ -5,7 +5,7 @@ import Home from "../pages/home";
 import NotFound from "../pages/NotFound";
 import Layout from "../layouts/layout";
 import GuestLayout from "../layouts/GuestLayout";
-import StudentDashboardLayout from "../layouts/StudentDashboardLayout";
+import StudentDashboardLayout from "../layouts/Student/StudentDashboardLayout";
 import StudentDashboard from "../components/Student/StudentDashboard";
 export const STUDENT_DASHBOARD_ROUTE = '/student/dashboard';
 export const LOGIN_ROUTE = '/login';

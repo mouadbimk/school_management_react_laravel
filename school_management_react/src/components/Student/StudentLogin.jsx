@@ -14,14 +14,14 @@ import { Input } from "@/components/ui/input"
 import { useNavigate } from "react-router-dom"
 import { STUDENT_DASHBOARD_ROUTE } from "../../router"
 import { Loader2 } from "lucide-react"
-import { useUserContext } from "../../context/UserContext"
+import { useStudentContext } from "../../context/StudentContext"
 const formSchema = z.object({
   email: z.string().email().min(2).max(50),
   password: z.string().min(8).max(30),
 })
 
 export default function StudentLogin(){ 
-  const {login,setAuthenticated} = useUserContext();
+  const {login,setAuthenticated} = useStudentContext();
   const navigate = useNavigate();
     const form = useForm({
         resolver: zodResolver(formSchema),
@@ -33,7 +33,7 @@ export default function StudentLogin(){
      const {setError, formState: {isSubmitting,}} = form;
       // 2. Define a submit handler.
       const onSubmit = async values =>{
-        login(values.email,values.password).then((value)=>{
+       await login(values.email,values.password).then((value)=>{
           if(value.status ==204){
              setAuthenticated(true);
              navigate(STUDENT_DASHBOARD_ROUTE);
