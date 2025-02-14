@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useNavigate } from "react-router-dom"
-import { STUDENT_DASHBOARD_ROUTE } from "../../router"
+import { ADMIN_DASHBOARD_LAYOUT, STUDENT_DASHBOARD_ROUTE, TEACHER_DASHBOARD_LAYOUT } from "../../router"
 import { Loader2 } from "lucide-react"
 import { useStudentContext } from "../../context/StudentContext"
 const formSchema = z.object({
@@ -20,7 +20,7 @@ const formSchema = z.object({
   password: z.string().min(8).max(30),
 })
 
-export default function StudentLogin(){ 
+export default function Login(){ 
   const {login,setAuthenticated} = useStudentContext();
   const navigate = useNavigate();
     const form = useForm({
@@ -33,16 +33,32 @@ export default function StudentLogin(){
      const {setError, formState: {isSubmitting,}} = form;
       // 2. Define a submit handler.
       const onSubmit = async values =>{
-       await login(values.email,values.password).then((value)=>{
-          if(value.status ==204){
-             setAuthenticated(true);
-             navigate(STUDENT_DASHBOARD_ROUTE);
-          }
-        }).catch(({response})=>{
+        try{
+          await login(values.email,values.password).then((response)=>{
+            console.log(response)
+              if(response.status === 200){
+                const {role} = response.data.user;
+                setAuthenticated(true);
+                  switch(role){
+                    case 'student':
+                      navigate(STUDENT_DASHBOARD_ROUTE);
+                      break;
+                    case 'admin':
+                      navigate(ADMIN_DASHBOARD_LAYOUT);
+                      break;
+                      case 'teacher':
+                        navigate(TEACHER_DASHBOARD_LAYOUT);
+                        break;
+                  }
+              }
+            })
+        }catch(error){
           setError('email',{
-            message:response.data.errors.email.join()
+            message: error.response?.data?.errors?.email?.join(", ") ||
+                     error.response?.data?.message ||
+                     "Login failed",
           });
-        })
+        }
       }
     return (
 

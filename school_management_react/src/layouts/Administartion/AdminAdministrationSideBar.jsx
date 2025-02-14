@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils"
-import { Button } from "../../../components/ui/button.tsx"
-import { ScrollArea } from '../../../components/ui/scroll-area.tsx';
+import { Button } from "../../components/ui/button.tsx";
+import { ScrollArea } from '../../components/ui/scroll-area.tsx';
 
-export function StudentAdministrationSidebar({ className }) {
+export function AdminAdministrationSideBar({ className }) {
     const playlists = [
         'Playlist 1',
         'Playlist 2'

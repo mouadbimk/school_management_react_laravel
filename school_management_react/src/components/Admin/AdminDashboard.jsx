@@ -1,7 +1,7 @@
 import { Loader } from "lucide-react";
 import { useStudentContext } from "../../context/StudentContext";
 
-export default function StudentDashboard() {
+export default function AdminDashboard() {
   const { user,authenticated } = useStudentContext();
 
   // Ensure `user` is defined

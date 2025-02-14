@@ -18,7 +18,7 @@ import { useStudentContext } from "../../context/StudentContext";
 import { useNavigate } from "react-router-dom";
 import { LOGIN_ROUTE } from "../../router";
 import { User } from "lucide-react";
-export default function StudentDropMenu(){
+export default function TeacherDropMenu(){
     const {logout:contextLogout,user} = useStudentContext()
     const navigate = useNavigate();
     const logout = ()=>{
@@ -29,7 +29,7 @@ export default function StudentDropMenu(){
     return <>
          <DropdownMenu>
       <DropdownMenuTrigger asChild>
-      <Button className="font-medium"><User/> <span className="w-20 capitalize truncate">{user?.name}</span></Button>
+      <Button className="font-medium"><User/> <span className="w-20 capitalize truncate">{user?.firstname + ' ' + user?.lastname}</span></Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
