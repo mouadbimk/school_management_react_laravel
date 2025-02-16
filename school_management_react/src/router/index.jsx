@@ -11,8 +11,11 @@ import AdminDashboardLayout from "../layouts/admin/AdminDashboardLayout";
 import AdminDashboard from "../components/Admin/AdminDashboard";
 import TeacherDashboard from './../components/Teacher/TeacherDashboard';
 import TeacherDashboardLayout from './../layouts/Teacher/TeacherDashboardLayout';
+import ManageParent from "../components/Admin/ManageParent";
 export const STUDENT_DASHBOARD_ROUTE = '/student/dashboard';
-export const ADMIN_DASHBOARD_LAYOUT = '/admin/dashboard';
+export const ADMIN_BASE_ROUTE = '/admin';
+export const ADMIN_DASHBOARD_LAYOUT = ADMIN_BASE_ROUTE + '/dashboard';
+export const ADMIN_MANAGE_PARENT_ROUTE = ADMIN_BASE_ROUTE + '/manage-parent';
 export const TEACHER_DASHBOARD_LAYOUT = '/teacher/dashboard';
 export const LOGIN_ROUTE = '/login';
 export const router = createBrowserRouter([
@@ -61,6 +64,10 @@ export const router = createBrowserRouter([
                 path: ADMIN_DASHBOARD_LAYOUT,
                 'element': <AdminDashboard />
             },
+            {
+                path: ADMIN_MANAGE_PARENT_ROUTE,
+                'element': <ManageParent />
+            },
 
         ],
     },
@@ -73,6 +80,7 @@ export const router = createBrowserRouter([
             },
 
         ],
-    }
+    },
+    
     
 ]);

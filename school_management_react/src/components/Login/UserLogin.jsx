@@ -21,7 +21,7 @@ const formSchema = z.object({
 })
 
 export default function Login(){ 
-  const {login,setAuthenticated} = useStudentContext();
+  const {login,setAuthenticated,setToken} = useStudentContext();
   const navigate = useNavigate();
     const form = useForm({
         resolver: zodResolver(formSchema),
@@ -38,6 +38,7 @@ export default function Login(){
             console.log(response)
               if(response.status === 200){
                 const {role} = response.data.user;
+                setToken(response.data.token)
                 setAuthenticated(true);
                   switch(role){
                     case 'student':
@@ -49,10 +50,12 @@ export default function Login(){
                       case 'teacher':
                         navigate(TEACHER_DASHBOARD_LAYOUT);
                         break;
+
                   }
               }
             })
         }catch(error){
+          console.log(error)
           setError('email',{
             message: error.response?.data?.errors?.email?.join(", ") ||
                      error.response?.data?.message ||
@@ -61,8 +64,6 @@ export default function Login(){
         }
       }
     return (
-
-    
          <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField

@@ -6,9 +6,9 @@ export const StudentStateContext = createContext({
     logout: () => {},
     login:(email,password)=>{},
     authenticated: false,
-    setAuthenticated: ()=>{
+    setAuthenticated: ()=>{},
+    setToken:()=>{},
 
-    }
 });
 export default function StudentContext({children}){
     const [user,setUser] = useState(null);
@@ -24,6 +24,9 @@ export default function StudentContext({children}){
         _setAuthenticated(isAuthenticated)
         window.localStorage.setItem('AUTHENTICATED', isAuthenticated);
     }
+    const setToken = (token) =>{
+        window.localStorage.setItem('token', token);
+    }
     return <>
             <StudentStateContext.Provider value={{
                 user,
@@ -32,6 +35,7 @@ export default function StudentContext({children}){
                 authenticated,
                 setAuthenticated,
                 logout,
+                setToken,
             }}>
                 {children}
             </StudentStateContext.Provider>

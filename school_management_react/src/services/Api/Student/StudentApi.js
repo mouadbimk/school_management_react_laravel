@@ -5,7 +5,7 @@ const StudentApi = {
         return await axiosClient.post('/login',{email,password})
     },
     getUser: async ()=>{
-        return await  axiosClient.get('/api/user');
+        return await  axiosClient.get('/api/admin');
     },
     logout: async ()=>{
         return await axiosClient.post('/logout');
