@@ -2,14 +2,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../../components/ui/button";
+import { Textarea } from "../../components/ui/textarea";
 import { RadioGroup,RadioGroupItem, } from "../../components/ui/radio-group";
 import { Select,SelectTrigger,SelectValue,SelectContent,SelectItem } from "../../components/ui/select";
-
 import {
   Form,
   FormControl,
   FormField,
-  FormDescription,
   FormItem,
   FormLabel,
   FormMessage,
@@ -18,36 +17,64 @@ import { Input } from "@/components/ui/input"
 import { Loader2 } from "lucide-react"
 import ParentApi from "../../services/Api/Student/ParentApi"
 import { Label } from '@/components/ui/label';
-import { Link } from 'react-router-dom';
+import { useToast } from "../../hooks/use-toast";
 const formSchema = z.object({
-  email: z.string().email().min(2).max(50),
-  password: z.string().min(8).max(30),
-})
+  firstname: z.string().min(2, "First name must be at least 2 characters").max(50).trim(),
+  lastname: z.string().min(2, "Last name must be at least 2 characters").max(50).trim(),
+  date_of_birth: z.string().refine((val) => !isNaN(Date.parse(val)), {
+    message: "Invalid date format",
+  }),
+  blood_type: z.enum(["O+", "O-", "A+", "A-", "B+", "B-", "AB+", "AB-"]),
+  gender: z.enum(["m", "f"], { message: "Invalid gender" }),
+  address: z.string().max(255).trim(),
+  phone: z.string().regex(/^\d{10}$/, "Invalid phone number"),
+  email: z.string().email("Invalid email").max(50),
+  password: z.string().min(8, "Password must be at least 8 characters").max(30),
+});
 
 export default function ParentCreateForm(){ 
-    const form = useForm({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-          email: "mouad@gmail.com",
-          password:"12345678",
-        },
-      })
+  const { toast } = useToast();
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      firstname: "",
+      lastname: "",
+      date_of_birth: "",
+      blood_type: "",
+      gender: "",
+      address: "",
+      phone: "",
+      email: "mouad@gmail.com",
+      password: "12345678",
+    },
+});
+
      const {setError, formState: {isSubmitting,}} = form;
       // 2. Define a submit handler.
-      const onSubmit = async values =>{
-        console.log(values);
-        debugger;
-           await ParentApi.create(values).then((
-            {status,data}) => {
-            if(status === 200){
-                console.log(data)
-            }
-           })
-            
-
-      }
+      const onSubmit = async (values) => {
+        try {
+          const { status } = await ParentApi.create(values);
+          if (status === 201) {
+            toast({
+              title:"Success",
+              description:"Account has been Created successfully", 
+              className: "bg-green-600 text-white text-xl"
+            });
+            reset();
+          }
+        } catch (error) {
+          if (error.response?.data?.errors) {
+            toast({
+              variant: "destructive",
+              title:"Uh oh! Something went wrong.",
+              description:error.response.data.message,
+            });
+          }
+        }
+      };
+      
     return (
-         <Form {...form}>
+        <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
@@ -137,19 +164,24 @@ export default function ParentCreateForm(){
     </FormItem>
   )}
 />
-             <FormField
+<FormField
           control={form.control}
           name="address"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Address</FormLabel>
               <FormControl>
-                <Input type={'text'} placeholder="Address" {...field} />
+                <Textarea
+                  placeholder="Ex: Avenue 2 Mars,Sale...."
+                  className="resize-none"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
+  
                <FormField
           control={form.control}
           name="phone"
@@ -165,12 +197,25 @@ export default function ParentCreateForm(){
         />
              <FormField
           control={form.control}
-          name="Email"
+          name="email"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input type={'text'} placeholder="Email" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+                   <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <Input type={'password'} placeholder="Password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

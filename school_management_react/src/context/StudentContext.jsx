@@ -12,7 +12,7 @@ export const StudentStateContext = createContext({
 });
 export default function StudentContext({children}){
     const [user,setUser] = useState(null);
-    const [authenticated,_setAuthenticated] = useState('trsue' === window.localStorage.getItem('AUTHENTICATED'));
+    const [authenticated,_setAuthenticated] = useState('true' === window.localStorage.getItem('AUTHENTICATED'));
     const login = async (email,password) => {
         return StudentApi.login(email,password);
     }

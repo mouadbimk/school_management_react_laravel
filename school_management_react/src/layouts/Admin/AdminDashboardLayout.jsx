@@ -16,7 +16,7 @@ export default function AdminDashboardLayout(){
  useEffect(()=>{
   if(authenticated === true){
     setIsLoading(false);
-    StudentApi.getUser().then(({data}) =>{
+    StudentApi.getAdmin().then(({data}) =>{
       setUser(data);
     }).catch(()=>{
       contextLogout();

@@ -17,7 +17,7 @@ export default function TeacherDashboardLayout(){
  useEffect(()=>{
   if(authenticated === true){
     setIsLoading(false);
-    StudentApi.getUser().then(({data}) =>{
+    StudentApi.getTeacher().then(({data}) =>{
       setUser(data);
     }).catch(()=>{
       contextLogout();

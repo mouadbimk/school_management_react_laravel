@@ -16,7 +16,7 @@ export default function StudentDashboardLayout(){
  useEffect(()=>{
   if(authenticated === true){
     setIsLoading(false);
-    StudentApi.getUser().then(({data}) =>{
+    StudentApi.getStudent().then(({data}) =>{
       setUser(data);
     }).catch(()=>{
       contextLogout();

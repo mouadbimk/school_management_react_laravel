@@ -20,7 +20,7 @@ const formSchema = z.object({
   password: z.string().min(8).max(30),
 })
 
-export default function Login(){ 
+export default function UserLogin(){ 
   const {login,setAuthenticated,setToken} = useStudentContext();
   const navigate = useNavigate();
     const form = useForm({
@@ -34,12 +34,11 @@ export default function Login(){
       // 2. Define a submit handler.
       const onSubmit = async values =>{
         try{
-          await login(values.email,values.password).then((response)=>{
-            console.log(response)
-              if(response.status === 200){
-                const {role} = response.data.user;
-                setToken(response.data.token)
+          await login(values.email,values.password).then(({status,data})=>{
+              if(status === 200){
+                setToken(data.token)
                 setAuthenticated(true);
+                const {role} = data.user;
                   switch(role){
                     case 'student':
                       navigate(STUDENT_DASHBOARD_ROUTE);
@@ -50,12 +49,13 @@ export default function Login(){
                       case 'teacher':
                         navigate(TEACHER_DASHBOARD_LAYOUT);
                         break;
+                        default:
+                          return "this role Unknown";
 
                   }
               }
             })
         }catch(error){
-          console.log(error)
           setError('email',{
             message: error.response?.data?.errors?.email?.join(", ") ||
                      error.response?.data?.message ||
