@@ -4,7 +4,7 @@ import './App.css'
 import { router } from './router/index';
 import StudentContext from './context/StudentContext';
 import { ThemeProvider } from './components/theme-provider';
-import { Toaster } from './components/ui/toaster';
+import { Toaster } from './components/ui/sonner.js';
 
 function App() {
   return (

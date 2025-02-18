@@ -21,4 +21,11 @@ class StudentParent extends Model
         'last_login_date',
         'password'
     ];
+    protected $hidden = [
+        'password',
+        'remember_token',
+        'deleted_at',
+        'email_verified_at',
+        'created_at',
+    ];
 }

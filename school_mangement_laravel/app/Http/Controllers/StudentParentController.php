@@ -7,15 +7,16 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\StudentParentResource;
 use App\Http\Requests\StoreStudentParentRequest;
 use App\Http\Requests\UpdateStudentParentRequest;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class StudentParentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
-        return 'ok';
+        return StudentParentResource::collection(StudentParent::all());
     }
 
     /**
@@ -48,8 +49,9 @@ class StudentParentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(StudentParent $studentParent)
+    public function destroy(StudentParent $parent)
     {
-        //
+       //$studentParent->delete();
+       return new StudentParentResource($parent);
     }
 }
