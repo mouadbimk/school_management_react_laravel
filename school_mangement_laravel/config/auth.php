@@ -48,6 +48,10 @@ return [
             'driver' => 'session',
             'provider' => 'teachers',
         ],
+        'parent' => [
+            'driver' => 'session',
+            'provider' => 'parents',
+        ],
     ],
 
     /*
@@ -79,6 +83,10 @@ return [
         'teachers' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\Teacher::class),
+        ],
+        'parents' => [
+            'driver' => 'eloquent',
+            'model' => env('AUTH_MODEL', App\Models\StudentParent::class),
         ],
 
         // 'users' => [
@@ -115,6 +123,18 @@ return [
         ],
         'admins' => [
             'provider' => 'admins',
+            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'parents' => [
+            'provider' => 'parents',
+            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'teachers' => [
+            'provider' => 'teachers',
             'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
             'expire' => 60,
             'throttle' => 60,

@@ -12,12 +12,34 @@ import TeacherDashboard from './../components/Teacher/TeacherDashboard';
 import TeacherDashboardLayout from './../layouts/Teacher/TeacherDashboardLayout';
 import ManageParent from "../components/Admin/ManageParent";
 import StudentDashboardLayout from "../layouts/Student/StudentDashboardLayout";
+import ParentDashboardLayout from "@/layouts/Parent/ParentDashboardLayout.jsx";
+import ParentDashboard from "@/components/Parent/ParentDashboard.jsx";
+import ManageStudent from "@/components/Admin/ManageStudent.jsx";
 export const STUDENT_DASHBOARD_ROUTE = '/student/dashboard';
 export const ADMIN_BASE_ROUTE = '/admin';
 export const ADMIN_DASHBOARD_LAYOUT = ADMIN_BASE_ROUTE + '/dashboard';
 export const ADMIN_MANAGE_PARENT_ROUTE = ADMIN_BASE_ROUTE + '/manage-parent';
+export const ADMIN_MANAGE_STUDENT_ROUTE = ADMIN_BASE_ROUTE + '/manage-student';
+
 export const TEACHER_DASHBOARD_LAYOUT = '/teacher/dashboard';
+export const PARENT_DASHBOARD_LAYOUT = '/parent/dashboard';
+
 export const LOGIN_ROUTE = '/login';
+export const redirectToDashboard = (roleType)=>{
+    switch(roleType){
+            case 'student':
+                return (STUDENT_DASHBOARD_ROUTE);
+            case 'admin':
+                return (ADMIN_DASHBOARD_LAYOUT);
+            case 'teacher':
+                 return (TEACHER_DASHBOARD_LAYOUT);
+            case 'parent' :
+                return (PARENT_DASHBOARD_LAYOUT);
+            default:
+                return "this role Unknown";
+
+    }
+}
 export const router = createBrowserRouter([
     {
         element: <Layout />,
@@ -68,6 +90,10 @@ export const router = createBrowserRouter([
                 path: ADMIN_MANAGE_PARENT_ROUTE,
                 'element': <ManageParent />
             },
+            {
+                path: ADMIN_MANAGE_STUDENT_ROUTE,
+                'element': <ManageStudent />
+            },
 
         ],
     },
@@ -77,6 +103,16 @@ export const router = createBrowserRouter([
             {
                 path: TEACHER_DASHBOARD_LAYOUT,
                 'element': <TeacherDashboard />
+            },
+
+        ],
+    },
+    {
+        element: <ParentDashboardLayout />,
+        children:[
+            {
+                path: PARENT_DASHBOARD_LAYOUT,
+                'element': <ParentDashboard />
             },
 
         ],

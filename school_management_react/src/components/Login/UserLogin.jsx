@@ -12,7 +12,12 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useNavigate } from "react-router-dom"
-import { ADMIN_DASHBOARD_LAYOUT, STUDENT_DASHBOARD_ROUTE, TEACHER_DASHBOARD_LAYOUT } from "../../router"
+import {
+    ADMIN_DASHBOARD_LAYOUT,
+    PARENT_DASHBOARD_LAYOUT, redirectToDashboard,
+    STUDENT_DASHBOARD_ROUTE,
+    TEACHER_DASHBOARD_LAYOUT
+} from "../../router"
 import { Loader2 } from "lucide-react"
 import { useStudentContext } from "../../context/StudentContext"
 const formSchema = z.object({
@@ -39,20 +44,7 @@ export default function UserLogin(){
                 setToken(data.token)
                 setAuthenticated(true);
                 const {role} = data.user;
-                  switch(role){
-                    case 'student':
-                      navigate(STUDENT_DASHBOARD_ROUTE);
-                      break;
-                    case 'admin':
-                      navigate(ADMIN_DASHBOARD_LAYOUT);
-                      break;
-                      case 'teacher':
-                        navigate(TEACHER_DASHBOARD_LAYOUT);
-                        break;
-                        default:
-                          return "this role Unknown";
-
-                  }
+                   navigate(redirectToDashboard(role));
               }
             })
         }catch(error){

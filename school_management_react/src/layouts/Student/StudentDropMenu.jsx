@@ -13,7 +13,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import StudentApi from "../../services/Api/Student/studentApi";
+import UserApi from "../../services/Api/Student/UserApi.js";
 import { useStudentContext } from "../../context/StudentContext";
 import { useNavigate } from "react-router-dom";
 import { LOGIN_ROUTE } from "../../router";
@@ -22,7 +22,7 @@ export default function StudentDropMenu(){
     const {logout:contextLogout,user} = useStudentContext()
     const navigate = useNavigate();
     const logout = ()=>{
-        StudentApi.logout().then(()=>{
+        UserApi.logout().then(()=>{
           contextLogout();
             navigate(LOGIN_ROUTE);
         })};

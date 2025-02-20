@@ -40,7 +40,8 @@ class LoginRequest extends FormRequest
     public function authenticate(): void
     {
         $this->ensureIsNotRateLimited();
-        $guards = ['web','admin','teacher'];
+        $guards = ['web','teacher','admin','parent'];
+        $isLogged = false;
         foreach($guards as $guard){
             if(Auth::guard($guard)->attempt($this->only('email','password'),$this->boolean('remember'))){
                 $isLogged = true;

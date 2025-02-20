@@ -5,25 +5,25 @@ import { useStudentContext } from "../../context/StudentContext";
 import UserApi from "../../services/Api/Student/UserApi.js";
 import { Home, LayoutDashboard, Loader } from "lucide-react";
 import { ModeToggle } from "../../components/mode-toggle";
-import { AdminAdministrationSideBar } from "../Administartion/AdminAdministrationSideBar";
-import AdminDropMenu from "./AdminDropMenu";
+import ParentDropMenu from "./ParentDropMenu.jsx";
+import {ParentAdministrationSideBar} from "@/layouts/Administartion/ParentAdministrationSideBar.jsx";
 
  
-export default function AdminDashboardLayout(){
-  const {setUser,logout: contextLogout,authenticated,setAuthenticated} = useStudentContext();
+export default function ParentDashboardLayout(){
+  const {setUser,logout: contextLogout,authenticated,user} = useStudentContext();
   const [isLoading,setIsLoading] = useState(true);
   const navigate = useNavigate();
  useEffect(()=>{
   if(authenticated === true){
     setIsLoading(false);
     UserApi.getUser().then(({data}) =>{
-        if(data.role !== 'admin'){
+        if(data.role !== 'parent'){
             navigate(redirectToDashboard(data.role));
         }
+        console.log(data);
       setUser(data);
-        setAuthenticated(true)
     }).catch((error)=>{
-      console.log(error);
+      console.log(error)
     });  
   }else{
     navigate(LOGIN_ROUTE);
@@ -48,7 +48,7 @@ export default function AdminDashboardLayout(){
                 <Link to={'/student-dashboard'} className="flex items-center"><LayoutDashboard className="w-6 mx-1"/>Dashboard</Link>
             </li>
             <li className="ml-1 px-2 py-1">
-                <AdminDropMenu />
+                <ParentDropMenu />
             </li>
             <li className="ml-1 px-1 py-1">
               <ModeToggle/>
@@ -60,8 +60,11 @@ export default function AdminDashboardLayout(){
     <hr />
         <main className={'mx-auto px-10 space-y-4 py-4'}>
           <div className="flex">
-            <div className="w-full md:w-2/12 border mr-2 rounded-l"><AdminAdministrationSideBar/></div>
-            <div className="w-full md:w-10/12 border rounded-l"><Outlet /></div>
+            <div className="w-full md:w-1/4"><ParentAdministrationSideBar/></div>
+            <div className="w-full md:w-3/4">
+            <div className="text-xl px-10 py-5"><h1>Hi,{user?.name}</h1></div>
+            <Outlet />
+            </div>
           </div>
         </main>
     </>

@@ -17,8 +17,7 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): JsonResponse
     {
         $request->authenticate();
-
-        $guards = array_keys(config('auth.guards'));
+        $guards = ['web','teacher','admin','parent'];
         $user = null;
         foreach($guards as $guard){
             $currentGuard = Auth::guard($guard); 
@@ -41,8 +40,8 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): JsonResponse
     {
-        Auth::guard('web')->logout();
-        $guards = array_keys(config('auth.guards'));
+        
+        $guards = ['web','teacher','admin','parent'];
         $user = null;
         foreach($guards as $guard){
             $currentGuard = Auth::guard($guard); 
@@ -51,11 +50,11 @@ class AuthenticatedSessionController extends Controller
                 break;
             }
         }
+        Auth::guard('web')->logout();
         $user->tokens()->delete();
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
-
+    
         return response()->json(['Good by']);
     }
 }

@@ -1,6 +1,5 @@
 import {DataTable} from "@/components/data-table/DataTable.jsx";
 import {useEffect, useState} from "react";
-import ParentApi from "@/services/Api/Student/ParentApi.js";
 import {DataTableColumnHeader} from "@/components/data-table/DataTableColumnHeader.jsx";
 import {
     AlertDialog, AlertDialogAction, AlertDialogCancel,
@@ -15,12 +14,13 @@ import {toast} from "sonner";
 import {Sheet,SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger} from "@/components/ui/sheet.js";
 import ParentUpsertForm from "@/components/Forms/ParentUpsertForm.jsx";
 import {ScrollArea} from "@/components/ui/scroll-area.js";
+import StudentApi from "@/services/Api/Student/StudentApi.js";
 
 
-export default function AdminParentList(){
+export default function AdminStudentList(){
     const [data,setData] = useState([]);
     const [openUpdateDialog, setOpenUpdateDialog] = useState(false);
-    const AdminParentColumns = [
+    const AdminStudentColumns = [
         {
             accessorKey: "id",
             header: ({ column }) => (
@@ -29,21 +29,12 @@ export default function AdminParentList(){
         },
 
         {
-            accessorKey: "firstname",
+            accessorKey: "name",
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="First Name" />
+                <DataTableColumnHeader column={column} title="Full Name" />
             ),
         },
-        {
-            accessorKey: "lastname",
-            header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Last Name" />
-            ),
-        },
-        {
-            accessorKey: "address",
-            header: "Address",
-        },
+
         {
             accessorKey: "email",
             header: ({ column }) => (
@@ -52,12 +43,10 @@ export default function AdminParentList(){
 
         },
         {
-            accessorKey: "phone",
-            header: "Phone",
-            // cell: ({ row }) => {
-            //     const phone = (row.getValue("phone"))
-            //     return <div className="text-right font-medium">+212-{phone}</div>
-            // },
+            accessorKey: "gender",
+            header: ({ column }) => (
+                <DataTableColumnHeader column={column} title="Gender" />
+            ),
         },
         {
             accessorKey: "blood_type",
@@ -66,13 +55,9 @@ export default function AdminParentList(){
             ),
         },
         {
-            accessorKey: "date_of_birth",
-            header: "Date of Birth",
-        },
-        {
-            accessorKey: "gender",
+            accessorKey: "last_login_date",
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Gender" />
+                <DataTableColumnHeader column={column} title="Last Login Date" />
             ),
         },
         {
@@ -139,7 +124,7 @@ export default function AdminParentList(){
                                     <AlertDialogCancel>Cancel</AlertDialogCancel>
                                     <AlertDialogAction className={'bg-red-600 hover:bg-red-400'} onClick={ async ()=>{
                                         const deletingLoader = toast.loading('Deleting in progress');
-                                       const {data: deletedParent,status} = await ParentApi.delete(id);
+                                       const {data: deletedParent,status} = await StudentApi.delete(id);
                                        if(status === 200){
                                            setData(data.filter(parent => parent.id !== id));
                                            toast.dismiss(deletingLoader);
@@ -161,7 +146,7 @@ export default function AdminParentList(){
         },
     ];
     useEffect(() => {
-        ParentApi.all().then(({data}) =>{
+        StudentApi.getAll().then(({data}) =>{
             setData(data.data)
         }).catch(error =>{
            toast({title:"Error",
@@ -169,7 +154,7 @@ export default function AdminParentList(){
         });
     }, []);
     return<>
-        <DataTable columns={AdminParentColumns} data={data} />
+        <DataTable columns={AdminStudentColumns} data={data} />
 
     </>
 }

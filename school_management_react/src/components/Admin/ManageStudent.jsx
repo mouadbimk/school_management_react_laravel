@@ -6,9 +6,10 @@ import { PlusCircle } from 'lucide-react';
 import ParentUpsertForm from '../Forms/ParentUpsertForm.jsx';
 import AdminParentList from "@/components/data-table/parent/AdminParentList.jsx";
 import ParentApi from "@/services/Api/Student/ParentApi.js";
+import AdminStudentList from "@/components/data-table/parent/AdminStudentList.jsx";
 
 
-const ManageParent = () => {
+const ManageStudent = () => {
     return (
      <div className='relative overflow-x-auto'>
 
@@ -21,43 +22,40 @@ const ManageParent = () => {
                   <Tabs defaultValue="parents_list" className="h-full space-y-6">
                     <div className="space-between flex items-center">
                       <TabsList>
-                        <TabsTrigger value="parents_list" className="relative">
-                          Parents
+                        <TabsTrigger value="items_list" className="relative">
+                          Students
                         </TabsTrigger>
-                        <TabsTrigger value="add_parent">Add new Parent</TabsTrigger>
+                        <TabsTrigger value="add_student">Add new Student</TabsTrigger>
                       </TabsList>
                       <div className="ml-auto mr-4">
-                        <Button>
+                        <Button value={'add_student'}>
                           <PlusCircle />
-                          Add Parent
+                          Add New
                         </Button>
                       </div>
                     </div>
                     <TabsContent
-                      value="parents_list"
+                      value="items_list"
                       className="border-none p-0 outline-none"
                     >
                       <div className="flex items-center justify-between">
                         <div className="space-y-1">
                           <h2 className="text-2xl font-semibold tracking-tight">
-                            All Parents
+                            All Students
                           </h2>
                         </div>
                       </div>
                       <Separator className="my-4" />
                       <div className="relative">
                         <ScrollArea>
-                            <AdminParentList/>
+                            <AdminStudentList/>
                           <ScrollBar orientation="horizontal" />
                         </ScrollArea>
                       </div>
-
-
                     </TabsContent>
                     <TabsContent
-                      value="add_parent"
-                      className="h-full"
-                    >
+                      value="add_student"
+                      className="h-full">
                         <ParentUpsertForm handelSubmit={(values)=>ParentApi.create(values)}/>
                     </TabsContent>
                   </Tabs>
@@ -71,4 +69,4 @@ const ManageParent = () => {
     );
 }
 
-export default ManageParent;
+export default ManageStudent;

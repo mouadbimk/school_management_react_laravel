@@ -1,8 +1,8 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import { LOGIN_ROUTE } from "../../router";
+import {LOGIN_ROUTE, redirectToDashboard} from "../../router";
 import { useEffect, useState } from "react";
 import { useStudentContext } from "../../context/StudentContext";
-import StudentApi from "../../services/Api/Student/studentApi";
+import UserApi from "../../services/Api/Student/UserApi.js";
 import StudentDropMenu from "./StudentDropMenu";
 import { Home, LayoutDashboard, Loader } from "lucide-react";
 import { ModeToggle } from "../../components/mode-toggle";
@@ -16,10 +16,13 @@ export default function StudentDashboardLayout(){
  useEffect(()=>{
   if(authenticated === true){
     setIsLoading(false);
-    StudentApi.getStudent().then(({data}) =>{
+    UserApi.getUser().then(({data}) =>{
+        if(data.role !== 'student'){
+            navigate(redirectToDashboard(data.role));
+        }
       setUser(data);
-    }).catch(()=>{
-      contextLogout();
+    }).catch((error)=>{
+      console.log(error)
     });  
   }else{
     navigate(LOGIN_ROUTE);

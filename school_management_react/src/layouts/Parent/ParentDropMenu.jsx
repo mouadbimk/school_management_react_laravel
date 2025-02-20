@@ -18,7 +18,7 @@ import { useStudentContext } from "../../context/StudentContext";
 import { useNavigate } from "react-router-dom";
 import { LOGIN_ROUTE } from "../../router";
 import { User } from "lucide-react";
-export default function TeacherDropMenu(){
+export default function ParentDropMenu(){
     const {logout:contextLogout,user} = useStudentContext()
     const navigate = useNavigate();
     const logout = ()=>{

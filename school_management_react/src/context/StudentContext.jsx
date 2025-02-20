@@ -1,5 +1,5 @@
 import {createContext, useContext, useState} from "react";
-import StudentApi from "../services/Api/Student/studentApi";
+import UserApi from "../services/Api/Student/UserApi.js";
 export const StudentStateContext = createContext({
     user: null,
     setUser: () => {},
@@ -14,7 +14,7 @@ export default function StudentContext({children}){
     const [user,setUser] = useState(null);
     const [authenticated,_setAuthenticated] = useState('true' === window.localStorage.getItem('AUTHENTICATED'));
     const login = async (email,password) => {
-        return StudentApi.login(email,password);
+        return UserApi.login(email,password);
     }
     const logout = () => {
         setUser(null)
