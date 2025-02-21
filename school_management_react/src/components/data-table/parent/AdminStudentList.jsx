@@ -55,6 +55,12 @@ export default function AdminStudentList(){
             ),
         },
         {
+            accessorKey: "student_parent_id",
+            header: ({ column }) => (
+                <DataTableColumnHeader column={column} title="Student Parent ID" />
+            ),
+        },
+        {
             accessorKey: "last_login_date",
             header: ({ column }) => (
                 <DataTableColumnHeader column={column} title="Last Login Date" />
@@ -93,7 +99,7 @@ export default function AdminStudentList(){
 
                                             values={row.original}
                                                 handelSubmit={(values) => {
-                                                    ParentApi.update(id, values).then((response) => {
+                                                    StudentApi.update(id, values).then((response) => {
 
                                                         setOpenUpdateDialog(false);
                                                         console.log(response);

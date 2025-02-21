@@ -4,9 +4,8 @@ import { ScrollArea, ScrollBar } from '../ui/scroll-area';
 import { Separator } from '../ui/separator';
 import { PlusCircle } from 'lucide-react';
 import ParentUpsertForm from '../Forms/ParentUpsertForm.jsx';
-import AdminParentList from "@/components/data-table/parent/AdminParentList.jsx";
-import ParentApi from "@/services/Api/Student/ParentApi.js";
 import AdminStudentList from "@/components/data-table/parent/AdminStudentList.jsx";
+import StudentApi from "@/services/Api/Student/StudentApi.js";
 
 
 const ManageStudent = () => {
@@ -56,7 +55,7 @@ const ManageStudent = () => {
                     <TabsContent
                       value="add_student"
                       className="h-full">
-                        <ParentUpsertForm handelSubmit={(values)=>ParentApi.create(values)}/>
+                        <ParentUpsertForm handelSubmit={(values)=>StudentApi.create(values)}/>
                     </TabsContent>
                   </Tabs>
                 </div>
